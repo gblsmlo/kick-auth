@@ -1,11 +1,11 @@
 import { ZodError, z } from "zod";
+import { InvalidCredentials } from "../../errors/invalid-credentials";
 import type {
 	IController,
 	IRequest,
 	IResponse,
 } from "../../interfaces/controller";
-import { InvalidCredentials } from "../errors/invalid-credentials";
-import type { SignInUseCase } from "../use-cases/sign-in-use-case";
+import type { SignInUseCase } from "../../use-cases/auth/sign-in-use-case";
 
 const schema = z.object({
 	email: z.string().email(),
@@ -42,9 +42,9 @@ export class SignInController implements IController {
 				return {
 					statusCode: 401,
 					body: {
-						error: 'Invalid credentials.'
-					}
-				}
+						error: "Invalid credentials.",
+					},
+				};
 			}
 
 			throw error;

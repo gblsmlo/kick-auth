@@ -1,11 +1,11 @@
 import { ZodError, z } from "zod";
+import { AccountAlreadyExists } from "../../errors/account-already-exists";
 import type {
 	IController,
 	IRequest,
 	IResponse,
 } from "../../interfaces/controller";
-import { AccountAlreadyExists } from "../errors/account-already-exists";
-import type { SignUpUseCase } from "../use-cases/sign-up-use-case";
+import type { SignUpUseCase } from "../../use-cases/auth/sign-up-use-case";
 
 const schema = z.object({
 	name: z.string().min(2),
@@ -44,9 +44,9 @@ export class SignUpController implements IController {
 				return {
 					statusCode: 409,
 					body: {
-						error: 'This email is already in use.'
-					}
-				}
+						error: "This email is already in use.",
+					},
+				};
 			}
 
 			throw error;
